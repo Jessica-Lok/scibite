@@ -21,49 +21,25 @@
 						}
 					}
 				}
+
 				ajaxRequest.open('GET', 'http://localhost:8080/person?first_name=' + first_name);
 				ajaxRequest.send();
 			}
 
 			function updatePerson(){
-				var id = document.getElementById('id').value;
-				var first_name = document.getElementById('first_name').value;
-				var last_name = document.getElementById('last_name').value;
-				var age = document.getElementById('age').value;
-				var favourite_colour = document.getElementById('favourite_colour').value;
-				var hobby = document.getElementById('hobby').value.split(",");
-
-
-				var json = JSON.stringify({"first_name": first_name,
-								"last_name" : last_name,
-								"age" : parseInt(age),
-								"favourite_colour" : favourite_colour,
-								"hobby" : hobby});
-
+				var json = getPersonDetailsAsJsonString();
 				var ajaxRequest = new XMLHttpRequest();
+				
 				ajaxRequest.open('PUT', 'http://localhost:8080/person/' + id);
-
 				ajaxRequest.setRequestHeader("Content-type", "application/json");
 				ajaxRequest.send(json);
 			}
 
 			function saveNewPerson() {
-				var id = document.getElementById('id').value;
-				var first_name = document.getElementById('first_name').value;
-				var last_name = document.getElementById('last_name').value;
-				var age = document.getElementById('age').value;
-				var favourite_colour = document.getElementById('favourite_colour').value;
-				var hobby = document.getElementById('hobby').value.split(",");
-
-				var json = JSON.stringify({"first_name": first_name,
-								"last_name" : last_name,
-								"age" : parseInt(age),
-								"favourite_colour" : favourite_colour,
-								"hobby" : hobby});
-
+				var json = getPersonDetailsAsJsonString();
 				var ajaxRequest = new XMLHttpRequest();
+				
 				ajaxRequest.open('POST', 'http://localhost:8080/person');
-
 				ajaxRequest.setRequestHeader("Content-type", "application/json");
 				ajaxRequest.send(json);
 			}
@@ -71,12 +47,24 @@
 			function deletePerson() {
 				var id = document.getElementById('id').value;
 				var ajaxRequest = new XMLHttpRequest();
+				
 				ajaxRequest.open('DELETE', 'http://localhost:8080/person/' + id);
 				ajaxRequest.send();
 			}
 
 			function String getPersonDetailsAsJsonString() {
-				
+				var id = document.getElementById('id').value;
+				var first_name = document.getElementById('first_name').value;
+				var last_name = document.getElementById('last_name').value;
+				var age = document.getElementById('age').value;
+				var favourite_colour = document.getElementById('favourite_colour').value;
+				var hobby = document.getElementById('hobby').value.split(",");
+
+				return JSON.stringify({"first_name": first_name,
+								"last_name" : last_name,
+								"age" : parseInt(age),
+								"favourite_colour" : favourite_colour,
+								"hobby" : hobby});
 			}
 		</script>
 </head>
