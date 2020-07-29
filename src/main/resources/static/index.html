@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>People Database</title>
+
+    <script>
+			function getPerson(){
+				var first_name = document.getElementById('search_name').value;
+
+				var ajaxRequest = new XMLHttpRequest();
+				ajaxRequest.onreadystatechange = function(){
+					if(ajaxRequest.readyState == 4){
+						if(ajaxRequest.status == 200){
+							var person = JSON.parse(ajaxRequest.responseText);
+							document.getElementById('id').value = person.id;
+							document.getElementById('first_name').value = person.first_name;
+							document.getElementById('last_name').value = person.last_name;
+							document.getElementById('age').value = person.age;
+							document.getElementById('favourite_colour').value = person.favourite_colour;
+							document.getElementById('hobby').value = person.hobby;
+						}
+					}
+				}
+				ajaxRequest.open('GET', 'http://localhost:8080/person?first_name=' + first_name);
+				ajaxRequest.send();
+			}
+
+			function updatePerson(){
+				var id = document.getElementById('id').value;
+				var first_name = document.getElementById('first_name').value;
+				var last_name = document.getElementById('last_name').value;
+				var age = document.getElementById('age').value;
+				var favourite_colour = document.getElementById('favourite_colour').value;
+				var hobby = document.getElementById('hobby').value.split(",");
+
+
+				var json = JSON.stringify({"first_name": first_name,
+								"last_name" : last_name,
+								"age" : parseInt(age),
+								"favourite_colour" : favourite_colour,
+								"hobby" : hobby});
+
+				var ajaxRequest = new XMLHttpRequest();
+				ajaxRequest.open('PUT', 'http://localhost:8080/person/' + id);
+
+				ajaxRequest.setRequestHeader("Content-type", "application/json");
+				ajaxRequest.send(json);
+			}
+
+			function saveNewPerson() {
+				var id = document.getElementById('id').value;
+				var first_name = document.getElementById('first_name').value;
+				var last_name = document.getElementById('last_name').value;
+				var age = document.getElementById('age').value;
+				var favourite_colour = document.getElementById('favourite_colour').value;
+				var hobby = document.getElementById('hobby').value.split(",");
+
+				var json = JSON.stringify({"first_name": first_name,
+								"last_name" : last_name,
+								"age" : parseInt(age),
+								"favourite_colour" : favourite_colour,
+								"hobby" : hobby});
+
+				var ajaxRequest = new XMLHttpRequest();
+				ajaxRequest.open('POST', 'http://localhost:8080/person');
+
+				ajaxRequest.setRequestHeader("Content-type", "application/json");
+				ajaxRequest.send(json);
+			}
+
+			function deletePerson() {
+				var id = document.getElementById('id').value;
+				var ajaxRequest = new XMLHttpRequest();
+				ajaxRequest.open('DELETE', 'http://localhost:8080/person/' + id);
+				ajaxRequest.send();
+			}
+
+			function String getPersonDetailsAsJsonString() {
+				
+			}
+		</script>
+</head>
+<body>
+<h1>People database</h1>
+<p><input type="text" value="" id="search_name"><button type="button" onclick="getPerson()">Get entry</button></p>
+<p>Id:</p>
+<input type="text" id="id">
+<p>First Name:</p>
+<input type="text" id="first_name">
+<p>Last Name:</p>
+<input type="text" id="last_name">
+<p>Age:</p>
+<input type="text" id="age">
+<p>Favourite colour:</p>
+<input type="text" id="favourite_colour">
+<p>Hobby:</p>
+<input type="text" id="hobby">
+<p><button type="button" onclick="updatePerson()">Update details</button><button type="button" onclick="saveNewPerson()">Save as new entry</button><button type="button" onclick="deletePerson()">Delete entry</button></p>
+</body>
+</html>
