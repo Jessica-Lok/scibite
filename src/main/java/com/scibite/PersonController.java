@@ -1,6 +1,7 @@
 package com.scibite;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +26,14 @@ public class PersonController {
     }
 
     @GetMapping("/person")
-    Person getByFirstName(@RequestParam(value = "first_name") String firstName) {
-        return repository.findByFirstName(firstName);
+    Person getByFullName(@RequestParam(value = "first_name") String firstName,
+                         @RequestParam(value = "last_name") String lastName) {
+        List<Person> peopleWithLastName = repository.findByLastName(lastName);
+        Optional<Person> optionalPerson = peopleWithLastName.stream()
+                .filter(person -> person.getFirstName().equals(firstName))
+                .findFirst();
+
+        return optionalPerson.orElse(null);
     }
 
     @GetMapping("/person/{id}")

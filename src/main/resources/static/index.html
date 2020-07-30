@@ -5,7 +5,9 @@
 
     <script>
 			function getPerson(){
-				var first_name = document.getElementById('search_name').value;
+				var full_name = document.getElementById('search_name').value.split(" ");
+				var first_name = full_name[0];
+				var last_name = full_name[1];
 
 				var ajaxRequest = new XMLHttpRequest();
 				ajaxRequest.onreadystatechange = function(){
@@ -22,11 +24,12 @@
 					}
 				}
 
-				ajaxRequest.open('GET', 'http://localhost:8080/person?first_name=' + first_name);
+				ajaxRequest.open('GET', 'http://localhost:8080/person?first_name=' + first_name + '&last_name=' + last_name);
 				ajaxRequest.send();
 			}
 
 			function updatePerson(){
+				var id = document.getElementById('id').value;
 				var json = getPersonDetailsAsJsonString();
 				var ajaxRequest = new XMLHttpRequest();
 				
@@ -35,7 +38,7 @@
 				ajaxRequest.send(json);
 			}
 
-			function saveNewPerson() {
+			function saveNewPerson(){
 				var json = getPersonDetailsAsJsonString();
 				var ajaxRequest = new XMLHttpRequest();
 				
@@ -44,7 +47,7 @@
 				ajaxRequest.send(json);
 			}
 
-			function deletePerson() {
+			function deletePerson(){
 				var id = document.getElementById('id').value;
 				var ajaxRequest = new XMLHttpRequest();
 				
@@ -52,8 +55,7 @@
 				ajaxRequest.send();
 			}
 
-			function String getPersonDetailsAsJsonString() {
-				var id = document.getElementById('id').value;
+			function getPersonDetailsAsJsonString(){
 				var first_name = document.getElementById('first_name').value;
 				var last_name = document.getElementById('last_name').value;
 				var age = document.getElementById('age').value;
