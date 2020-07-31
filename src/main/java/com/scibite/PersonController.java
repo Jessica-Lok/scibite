@@ -16,8 +16,12 @@ public class PersonController {
     }
 
     @PostMapping("/person")
-    public Person newPerson(@RequestBody Person newPerson) {
-        return repository.save(newPerson);
+    public void newPerson(@RequestBody Person newPerson) {
+        Person person = getByFullName(newPerson.getFirstName(), newPerson.getLastName());
+        if (person != null) {
+            return; // Don't add a new person with the same name
+        }
+        repository.save(newPerson);
     }
 
     @GetMapping("/person/")
