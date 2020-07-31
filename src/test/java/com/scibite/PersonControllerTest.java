@@ -1,10 +1,10 @@
 package com.scibite;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,12 +20,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
@@ -45,7 +40,7 @@ public class PersonControllerTest {
     @Autowired
     private PersonRepository repository;
 
-    private List<String> testEntryIDs = new ArrayList<>();
+    private String testEntryID;
 
     @BeforeAll
     void setUp() {
@@ -56,7 +51,7 @@ public class PersonControllerTest {
                 Collections.singletonList("football"));
 
         repository.save(person);
-        testEntryIDs.add(person.id);
+        testEntryID = person.id;
     }
 
     @Test
@@ -68,28 +63,58 @@ public class PersonControllerTest {
                 .queryParam("first_name", "John")
                 .queryParam("last_name", "Smith");
 
-        JSONObject expectedJSON = new JSONObject()
+        JSONObject expectedJson = new JSONObject()
                 .put("first_name", "John")
                 .put("last_name", "Smith")
                 .put("age", 24)
                 .put("favourite_colour", "red")
                 .put("hobby", new JSONArray().put("football"));
 
-
-        JSONObject responseJSON = new JSONObject(this.restTemplate.exchange(builder.build().toUri(),
+        JSONObject responseJson = new JSONObject(this.restTemplate.exchange(builder.build().toUri(),
                 HttpMethod.GET,
                 entity,
                 String.class)
                 .getBody());
+        responseJson.remove("id");
 
-        responseJSON.remove("id");
+        assertEquals(expectedJson.toString(), responseJson.toString());
+    }
 
-        assertEquals(expectedJSON.toString(), responseJSON.toString());
+    @Test
+    public void putPersonTest() throws JSONException, JsonProcessingException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+
+        JSONObject json = new JSONObject()
+                .put("first_name", "John")
+                .put("last_name", "Smith")
+                .put("age", 24)
+                .put("favourite_colour", "red")
+                .put("hobby", new JSONArray().put("football"));
+
+        HttpEntity<String> entity = new HttpEntity<>(json.toString(), headers);
+
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl("http://localhost:" + port + "/person/")
+                .queryParam("id", testEntryID);
+
+        restTemplate.exchange(builder.build().toUri(),
+                HttpMethod.PUT,
+                entity,
+                String.class);
+
+        Person updatedPerson = repository.findById(testEntryID).get();
+
+        ObjectMapper mapper = new ObjectMapper();
+        JSONObject updatedPersonJson = new JSONObject(mapper.writeValueAsString(updatedPerson));
+        updatedPersonJson.remove("id");
+
+        assertEquals(json.toString(), updatedPersonJson.toString());
     }
 
     @AfterAll
     void tearDown() {
-        testEntryIDs.forEach(id -> repository.deleteById(id));
+        repository.deleteById(testEntryID);
     }
 
 }
