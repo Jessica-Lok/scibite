@@ -5,6 +5,11 @@
     <script>
 			function getPerson(){
 				var full_name = document.getElementById('search_name').value.split(" ");
+				
+				if (full_name.length != 2) {
+					window.alert("Please type two words!")
+				}
+
 				var first_name = full_name[0];
 				var last_name = full_name[1];
 
@@ -52,6 +57,7 @@
 				
 				ajaxRequest.open('DELETE', 'http://localhost:8080/person/' + id);
 				ajaxRequest.send();
+				clearFields();
 			}
 
 			function getPersonDetailsAsJsonString(){
@@ -67,13 +73,24 @@
 								"favourite_colour" : favourite_colour,
 								"hobby" : hobby});
 			}
+
+			function clearFields() {
+				document.getElementById('search_name').value = "";
+				document.getElementById('id').value = "";
+				document.getElementById('first_name').value = "";
+				document.getElementById('last_name').value = "";
+				document.getElementById('age').value = "";
+				document.getElementById('favourite_colour').value = "";
+				document.getElementById('hobby').value = "";
+			}
+
 		</script>
 </head>
 <body style="background-color:pink;">
 <h1>People database</h1>
+<p>To search for a person's details please enter a first and second name separated by a space</p>
 <p><input type="text" value="" id="search_name"><button type="button" onclick="getPerson()">Get entry</button></p>
-<p>Id:</p>
-<input type="text" id="id">
+<p hidden="true" id="id"></p>
 <p>First Name:</p>
 <input type="text" id="first_name">
 <p>Last Name:</p>
@@ -83,7 +100,9 @@
 <p>Favourite colour:</p>
 <input type="text" id="favourite_colour">
 <p>Hobby:</p>
+<p>For multiple hobbies please separate each one with a comma</p>
 <input type="text" id="hobby">
 <p><button type="button" onclick="updatePerson()">Update details</button><button type="button" onclick="saveNewPerson()">Save as new entry</button><button type="button" onclick="deletePerson()">Delete entry</button></p>
+<button type="button" onclick="clearFields()">Clear fields</button>
 </body>
 </html>
