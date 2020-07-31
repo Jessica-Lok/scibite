@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
@@ -103,8 +105,11 @@ public class PersonControllerTest {
                 entity,
                 String.class);
 
-        Person updatedPerson = repository.findById(testEntryID).get();
+        Optional<Person> optionalPerson = repository.findById(testEntryID);
 
+        if (!optionalPerson.isPresent()) Assert.fail();
+
+        Person updatedPerson = optionalPerson.get();
         ObjectMapper mapper = new ObjectMapper();
         JSONObject updatedPersonJson = new JSONObject(mapper.writeValueAsString(updatedPerson));
         updatedPersonJson.remove("id");
