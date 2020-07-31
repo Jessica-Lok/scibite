@@ -1,4 +1,4 @@
-package com.scibite;
+package com.scibite.person;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

@@ -2,7 +2,7 @@ package com.scibite.person;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.scibite.*;
+import com.scibite.ScibiteApplication;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

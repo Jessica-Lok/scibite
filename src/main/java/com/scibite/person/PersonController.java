@@ -1,4 +1,4 @@
-package com.scibite;
+package com.scibite.person;
 
 import java.util.List;
 import java.util.Optional;
