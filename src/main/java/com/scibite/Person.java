@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
-@AllArgsConstructor
 public class Person {
 
     @Id
@@ -37,6 +36,14 @@ public class Person {
     @Setter
     private List<String> hobby;
 
+    public Person(String firstName, String lastName, int age, String favouriteColour, List<String> hobby) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.favouriteColour = favouriteColour;
+        this.hobby = hobby;
+    }
+
     public void updateDetails(Person updatedPerson) {
         this.firstName = updatedPerson.getFirstName();
         this.lastName = updatedPerson.getLastName();
@@ -44,4 +51,5 @@ public class Person {
         this.favouriteColour = updatedPerson.getFavouriteColour();
         this.hobby = updatedPerson.getHobby();
     }
+
 }
