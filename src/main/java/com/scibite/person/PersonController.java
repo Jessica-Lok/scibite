@@ -24,7 +24,7 @@ public class PersonController {
         repository.save(newPerson);
     }
 
-    @GetMapping("/person/")
+    @GetMapping("/person/all")
     List<Person> returnAll() {
         return repository.findAll();
     }
@@ -66,7 +66,7 @@ public class PersonController {
         repository.deleteById(id);
     }
 
-    @DeleteMapping("/person")
+    @DeleteMapping("/person/all")
     void deleteAll() {
         repository.deleteAll();
     }
