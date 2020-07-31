@@ -3,6 +3,11 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 	id 'io.franzbecker.gradle-lombok' version '1.8'
+	id "application"
+}
+
+springBoot {
+	mainClassName = 'com.scibite.ScibiteApplication'
 }
 
 group = 'com.example'
@@ -11,6 +16,10 @@ sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
+}
+
+application {
+	mainClass = 'com.scibite.ScibiteApplication'
 }
 
 dependencies {
