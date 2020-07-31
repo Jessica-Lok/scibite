@@ -49,6 +49,7 @@
 				ajaxRequest.open('POST', 'http://localhost:8080/person');
 				ajaxRequest.setRequestHeader("Content-type", "application/json");
 				ajaxRequest.send(json);
+				clearFields()
 			}
 
 			function deletePerson(){
