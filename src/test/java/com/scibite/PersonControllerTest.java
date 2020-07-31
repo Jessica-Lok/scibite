@@ -88,6 +88,7 @@ public class PersonControllerTest {
         headers.add("Content-Type", "application/json");
 
         JSONObject json = new JSONObject()
+                .put("id", testEntryID)
                 .put("first_name", "John")
                 .put("last_name", "Smith")
                 .put("age", 24)
@@ -112,7 +113,6 @@ public class PersonControllerTest {
         Person updatedPerson = optionalPerson.get();
         ObjectMapper mapper = new ObjectMapper();
         JSONObject updatedPersonJson = new JSONObject(mapper.writeValueAsString(updatedPerson));
-        updatedPersonJson.remove("id");
 
         assertEquals(json.toString(), updatedPersonJson.toString());
     }

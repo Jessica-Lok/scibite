@@ -20,11 +20,6 @@ public class PersonController {
         return repository.save(newPerson);
     }
 
-    @GetMapping("/person/")
-    List<Person> returnAll() {
-        return repository.findAll();
-    }
-
     @GetMapping("/person")
     Person getByFullName(@RequestParam(value = "first_name") String firstName,
                          @RequestParam(value = "last_name") String lastName) {
@@ -62,8 +57,4 @@ public class PersonController {
         repository.deleteById(id);
     }
 
-    @DeleteMapping("/person")
-    void deleteAll() {
-        repository.deleteAll();
-    }
 }
