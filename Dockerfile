@@ -1,6 +1,4 @@
-FROM openjdk:11
-COPY . ~/code/scibite/
-WORKDIR ~/code/scibite/
-RUN ./gradlew build -x test 
-CMD ["./gradlew", "run"]
+FROM adoptopenjdk:11-jre-hotspot
+COPY build/libs/scibite-0.0.1-SNAPSHOT.jar .
+CMD ["java", "-jar", "scibite-0.0.1-SNAPSHOT.jar"]
 
