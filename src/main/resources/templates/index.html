@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>People Database</title>
     <script>
@@ -84,26 +85,29 @@
 				document.getElementById('favourite_colour').value = "";
 				document.getElementById('hobby').value = "";
 			}
-
 		</script>
 </head>
 <body style="background-color:pink;">
-<h1>People database</h1>
-<p>To search for a person's details please enter a first and second name separated by a space</p>
-<p><input type="text" value="" id="search_name"><button type="button" onclick="getPerson()">Get entry</button></p>
-<p hidden="true" id="id"></p>
-<p>First Name:</p>
-<input type="text" id="first_name">
-<p>Last Name:</p>
-<input type="text" id="last_name">
-<p>Age:</p>
-<input type="text" id="age">
-<p>Favourite colour:</p>
-<input type="text" id="favourite_colour">
-<p>Hobby:</p>
-<p>For multiple hobbies please separate each one with a comma</p>
-<input type="text" id="hobby">
-<p><button type="button" onclick="updatePerson()">Update details</button><button type="button" onclick="saveNewPerson()">Save as new entry</button><button type="button" onclick="deletePerson()">Delete entry</button></p>
-<button type="button" onclick="clearFields()">Clear fields</button>
+    <h1>People database</h1>
+    <p>To search for a person's details please enter a first and second name separated by a space</p>
+    <p><input type="text" value="" id="search_name"><button type="button" onclick="getPerson()">Get entry</button></p>
+    <p hidden="true" id="id"></p>
+    <p>First Name:</p>
+    <input type="text" id="first_name">
+    <p>Last Name:</p>
+    <input type="text" id="last_name">
+    <p>Age:</p>
+    <input type="text" id="age">
+    <p>Favourite colour:</p>
+    <input type="text" id="favourite_colour">
+    <p>Hobby:</p>
+    <p>For multiple hobbies please separate each one with a comma</p>
+    <input type="text" id="hobby">
+    <p><button type="button" onclick="updatePerson()">Update details</button><button type="button" onclick="saveNewPerson()">Save as new entry</button><button type="button" onclick="deletePerson()">Delete entry</button></p>
+    <button type="button" onclick="clearFields()">Clear fields</button>
+    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
 </body>
 </html>
