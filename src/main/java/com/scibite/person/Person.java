@@ -2,10 +2,15 @@ package com.scibite.person;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Setter
+@NoArgsConstructor
 public class Person {
 
     @Id
@@ -37,12 +42,25 @@ public class Person {
         this.hobby = hobby;
     }
 
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = 0;
+        this.favouriteColour = "pink";
+        this.hobby = new ArrayList<>();
+    }
+
     public void updateDetails(Person updatedPerson) {
         this.firstName = updatedPerson.firstName;
         this.lastName = updatedPerson.lastName;
         this.age = updatedPerson.age;
         this.favouriteColour = updatedPerson.favouriteColour;
         this.hobby = updatedPerson.hobby;
+    }
+
+    @Override
+    public String toString() {
+        return "firstName: " + firstName + ", lastName: " + lastName;
     }
 
 }
